@@ -187,7 +187,7 @@ export default function Home() {
 
       <main className={theme.container}>
         <h1 className={theme.title}>CyberScope</h1>
-        <p className={theme.tagline}>&gt; automated domain security investigation</p>
+        <p className={theme.tagline}>Automated domain security investigation</p>
 
         <div className="max-w-2xl mb-3 flex gap-2">
           <input
@@ -200,7 +200,7 @@ export default function Home() {
             className={theme.input}
           />
           <button onClick={investigate} disabled={busy} className={theme.button}>
-            {busy ? "SCANNING..." : "INVESTIGATE"}
+            {busy ? "Scanning..." : "Investigate"}
           </button>
         </div>
 
@@ -218,19 +218,19 @@ export default function Home() {
               className={`${theme.card} mt-6 mb-5 flex flex-wrap items-center justify-between gap-4`}
               aria-live="polite"
             >
-              <div className="font-mono text-sm">
+              <div className="text-sm">
                 <span className={theme.label}>Target </span>
                 <span className={theme.text}>
                   {target.kind === "domain" ? target.domain : target.ip}
                 </span>
               </div>
-              <div className="flex gap-5 font-mono text-sm">
+              <div className="flex gap-5 text-sm font-medium">
                 <span className={theme.statCritical}>{counts.critical} critical</span>
                 <span className={theme.statWarning}>{counts.warning} warning</span>
                 <span className={theme.statInfo}>{counts.info} info</span>
               </div>
               <div className={theme.label}>
-                {busy ? `${pending} checks running` : "scan complete"}
+                {busy ? `${pending} checks running` : "Scan complete"}
               </div>
             </div>
 
@@ -295,7 +295,7 @@ export default function Home() {
                   disabled={target.kind !== "domain" || report.status === "loading"}
                   className={theme.buttonGhost}
                 >
-                  {report.status === "loading" ? "GENERATING..." : "DOWNLOAD PDF"}
+                  {report.status === "loading" ? "Generating..." : "Download PDF"}
                 </button>
               </section>
             </div>
