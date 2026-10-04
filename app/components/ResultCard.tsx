@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { theme } from "../lib/theme";
+import { getWhyItMatters } from "../lib/findingContext";
 import type { CardState, Finding, Severity } from "../lib/types";
 
 const RANK: Record<Severity, number> = { critical: 0, warning: 1, info: 2 };
@@ -19,12 +20,23 @@ export function Findings({ findings }: { findings: Finding[] }) {
   return (
     <div className={`mt-4 pt-3 border-t ${theme.divider} space-y-2`}>
       <div className={theme.label}>Findings</div>
-      {sorted.map((f, i) => (
-        <div key={i} className="flex gap-2 items-start text-sm">
-          <Badge severity={f.severity} />
-          <span className={theme.text}>{f.message}</span>
-        </div>
-      ))}
+      {sorted.map((f, i) => {
+        const why = getWhyItMatters(f.message);
+        return (
+          <div key={i} className="text-sm">
+            <div className="flex gap-2 items-start">
+              <Badge severity={f.severity} />
+              <span className={theme.text}>{f.message}</span>
+            </div>
+            {why && (
+              <details className="ml-1">
+                <summary className={theme.detailsToggle}>Why does this matter?</summary>
+                <p className={theme.detailsBody}>{why}</p>
+              </details>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }

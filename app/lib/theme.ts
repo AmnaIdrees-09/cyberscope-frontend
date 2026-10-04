@@ -40,4 +40,16 @@ export const theme = {
   statCritical: "text-red-400",
   statWarning: "text-amber-400",
   statInfo: "text-yellow-500",
+
+  // New: expandable "why does this matter" on each finding
+  detailsToggle: "mt-1 text-xs text-zinc-500 hover:text-yellow-500 cursor-pointer select-none",
+  detailsBody: "mt-1 text-xs text-zinc-400 leading-relaxed pl-3 border-l border-zinc-800",
+
+  // New: context banner for well-known large platforms
+  banner: "bg-zinc-950 border border-yellow-900 rounded-lg px-4 py-3 text-sm text-yellow-200 mb-5",
+
+  // New: footer
+  footer:
+    "mt-16 pt-8 border-t border-zinc-800 flex flex-wrap items-center justify-between gap-4 text-sm text-zinc-500",
+  footerLink: "text-zinc-400 hover:text-yellow-500 transition-colors",
 } as const;

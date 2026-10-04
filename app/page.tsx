@@ -16,6 +16,7 @@ import {
   WhoisBody,
 } from "./components/CardBodies";
 import { API_BASE, describeError, parseInput, postJson, type ValidInput } from "./lib/api";
+import { isKnownBigPlatform } from "./lib/findingContext";
 import { theme } from "./lib/theme";
 import { useCard } from "./lib/useCard";
 import {
@@ -83,18 +84,18 @@ export default function Home() {
     info: allFindings.filter((f) => f.severity === "info").length,
   };
 
+  const showBigPlatformNote = target?.kind === "domain" && isKnownBigPlatform(target.domain);
+
   async function scanDomain(domain: string, url: string, myToken: number) {
     const d = encodeURIComponent(domain);
 
-    // AI summary and MITRE wait for every other check, then analyse them together
     summary.wait();
     mitre.wait();
 
     const dnsPromise = dns.run(`/investigate/${d}`);
 
-    // The IP check needs an address, which comes from the DNS result
     const ipPromise = dnsPromise.then((data) => {
-      if (myToken !== token.current) return null; // a newer scan has started
+      if (myToken !== token.current) return null;
       const firstIp = data?.records["A"]?.[0];
       if (firstIp) return ip.run(`/ip/${firstIp}`);
       ip.skip(
@@ -234,6 +235,14 @@ export default function Home() {
               </div>
             </div>
 
+            {showBigPlatformNote && (
+              <div className={theme.banner}>
+                This is a large, well-known platform. Findings like missing headers or a stray
+                reputation flag are common at this scale and age, and don&apos;t necessarily
+                indicate unusual risk the way they might on a smaller or newer site.
+              </div>
+            )}
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <ResultCard index={1} title="AI summary" state={summary.state} wide>
                 {(d) => <SummaryBody d={d} />}
@@ -301,6 +310,25 @@ export default function Home() {
             </div>
           </>
         )}
+
+        {/* Footer — replace the LinkedIn URL below with your real one */}
+        <footer className={theme.footer}>
+          <span>CyberScope — a personal project by Amna Idrees</span>
+          <div className="flex gap-4">
+            <a href="https://github.com/AmnaIdrees-09/CyberScope" target="_blank" rel="noopener noreferrer" className={theme.footerLink}>
+              Backend
+            </a>
+            <a href="https://github.com/AmnaIdrees-09/cyberscope-frontend" target="_blank" rel="noopener noreferrer" className={theme.footerLink}>
+              Frontend
+            </a>
+            <a href="https://github.com/AmnaIdrees-09" target="_blank" rel="noopener noreferrer" className={theme.footerLink}>
+              GitHub
+            </a>
+            <a href="https://www.linkedin.com/in/REPLACE-WITH-YOUR-HANDLE" target="_blank" rel="noopener noreferrer" className={theme.footerLink}>
+              LinkedIn
+            </a>
+          </div>
+        </footer>
       </main>
     </div>
   );
