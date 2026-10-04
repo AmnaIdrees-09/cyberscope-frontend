@@ -1,7 +1,7 @@
 // Locally this points at your FastAPI server. When you deploy, set
 // NEXT_PUBLIC_API_BASE in the hosting dashboard instead of editing code.
 export const API_BASE =
-  process.env.NEXT_PUBLIC_API_BASE ?? "http://127.0.0.1:8000/api";
+  process.env.NEXT_PUBLIC_API_BASE ?? "https://cyberscope-production.up.railway.app/api";
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const res = await fetch(`${API_BASE}${path}`, {
